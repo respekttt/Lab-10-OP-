@@ -1,84 +1,9 @@
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 public class Main {
-    private List<Film> films;
-    private List<Actor> actors;
-
-    public Main() {
-        films = new ArrayList<Film>();
-        actors = new ArrayList<Actor>();
-    }
-
-    public List<Film> getFilms() {
-        return films;
-    }
-
-    public List<Actor> getActors() {
-        return actors;
-    }
-
-    public void addFilm(Film film) {
-        if (!films.contains(film)) {
-            films.add(film);
-        }
-    }
-
-    public void addActor(Actor actor) {
-        if (!actors.contains(actor)) {
-            actors.add(actor);
-        }
-    }
-
-    // Task 1:
-    public List<Actor> getActorsWithNoFilms() {
-        List<Actor> actorsWithNoFilms = new ArrayList<Actor>();
-        // Typed iterator
-        Iterator<Actor> iterator = actors.iterator();
-        while (iterator.hasNext()) {
-            Actor actor = iterator.next();
-            if (actor.getFilms().isEmpty()) {
-                actorsWithNoFilms.add(actor);
-            }
-        }
-        return actorsWithNoFilms;
-    }
-
-    // Task 2:
-    public List<Actor> getCoActors(Actor givenActor) {
-        List<Actor> coActors = new ArrayList<Actor>();
-        // Typed for-each loop
-        for (Film film : givenActor.getFilms()) {
-            for (Actor actor : film.getActors()) {
-                if (!actor.equals(givenActor) && !coActors.contains(actor)) {
-                    coActors.add(actor);
-                }
-            }
-        }
-        return coActors;
-    }
-
-    // Task 3:
-    public Film getFilmWithMostActors() {
-        // Untyped iterator
-        Iterator iterator = films.iterator();
-        Film maxFilm = null;
-        int maxActors = 0;
-        while (iterator.hasNext()) {
-            Film film = (Film) iterator.next();
-            int numActors = film.getActors().size();
-            if (numActors > maxActors) {
-                maxActors = numActors;
-                maxFilm = film;
-            }
-        }
-        return maxFilm;
-    }
-
     // Main method
     public static void main(String[] args) {
-        Main db = new Main();
+        Database db = new Database();
 
         // actors
         Actor margotRobbie = new Actor("Margot Robbie");
@@ -130,20 +55,20 @@ public class Main {
         // Task 1
         List<Actor> actorsWithNoFilms = db.getActorsWithNoFilms();
         if (!actorsWithNoFilms.isEmpty()) {
-            System.out.println("Actors who have not acted in any film:");
+            System.out.println("Актор який не грав ролi в жодному фiльмi:");
             for (Actor actor : actorsWithNoFilms) {
                 System.out.println("- " + actor.getName());
             }
         } else {
-            System.out.println("All actors have acted in at least one film.");
+            System.out.println("Всi актори брали участь в цих фiльмах.");
         }
 
         // Task 2
         List<Actor> coActorsOfTom = db.getCoActors(tomHolland);
-        System.out.println("Actors who have ever played with " + tomHolland.getName() + ": " + coActorsOfTom);
+        System.out.println("Актори якi грали з " + tomHolland.getName() + ": " + coActorsOfTom);
 
         // Task 3
         Film filmWithMostActors = db.getFilmWithMostActors();
-        System.out.println("Film with the most actors: " + filmWithMostActors.getTitle());
+        System.out.println("Фiльм з найбiльшою кiлькiстю акторiв: " + filmWithMostActors.getTitle());
     }
 }
